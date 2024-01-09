@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -36,10 +38,12 @@ class InternetConnectionChecker {
             )
           ]).show();
       dev.log('network fasle');
-      return false; // No internet connection
+      return json.decode("false");
+      // return false; // No internet connection
     } else {
       dev.log('network true');
-      return true; // Internet connection available
+      return json.decode("true");
+      // return true; // Internet connection available
     }
   }
 }
