@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/pages/add_item/add_item.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/utils/internetconnection_class.dart';
 import 'package:mobile_pos_adminpanell/utils/main_body.dart';
 import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
-import 'package:mobile_pos_adminpanell/widgets/common_btn.dart';
+import 'package:mobile_pos_adminpanell/widgets/common_card.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,72 +66,56 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                // const Spacer(),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: SizedBox(
-                //     width: MediaQuery.of(context).size.width,
-                //     child: CommonBtn(
-                //       bntName: 'Sing Out',
-                //       onPress: () {
-                //         exit(0);
-                //       },
-                //       backgroundColor: Colors.red,
-                //     ),
-                //   ),
-                // )
+                const Spacer(),
+                kIsWeb ? Container() : Text('data')
               ],
             );
           },
-          // child: Column(
-          //   children: [
-          //     UserAccountsDrawerHeader(
-          //       decoration: const BoxDecoration(
-          //         image: DecorationImage(
-          //           image: AssetImage(
-          //             'assets/images/drawer.png',
-          //           ),
-          //           fit: BoxFit.cover,
-          //         ),
-          //       ),
-          //       accountEmail: const Text(''),
-          //       accountName: Container(
-          //         child: Text(
-          //           "sjhd",
-          //           style: const TextStyle(
-          //             fontSize: 20,
-          //             fontWeight: FontWeight.bold,
-          //             color: Colors.white,
-          //           ),
-          //         ),
-          //       ),
-          //       currentAccountPicture: Container(
-          //         decoration: const BoxDecoration(
-          //           image: DecorationImage(
-          //             image: AssetImage('assets/images/user_image.png'),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     const Spacer(),
-          //     Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: SizedBox(
-          //         width: MediaQuery.of(context).size.width,
-          //         child: CommonBtn(
-          //           bntName: 'Sing Out',
-          //           onPress: () {
-          //             exit(0);
-          //           },
-          //           backgroundColor: Colors.red,
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
         ),
       ),
-      body: SingleChildScrollView(),
+      body: SingleChildScrollView(child: Consumer(
+        builder: (context, value, child) {
+          return Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        CommonCard(
+                          icon: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          text: 'Add new item',
+                          color: Colors.blue,
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return const AddNewItem();
+                              },
+                            ));
+                          },
+                        ),
+                        CommonCard(
+                          icon: Icon(Icons.discount),
+                          text: 'Add new offerce',
+                          color: Colors.blueAccent,
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      )),
     );
   }
 }
