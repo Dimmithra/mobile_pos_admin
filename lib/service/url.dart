@@ -5,3 +5,5 @@ const BASE_URL = "http://192.168.1.100:3000";
 const kuserregistration = "$BASE_URL/userregistration";
 //login url
 const klogin = "$BASE_URL/login";
+//add new items
+const kitemsave = "$BASE_URL/itemsave";

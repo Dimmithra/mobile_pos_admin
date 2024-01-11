@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
 import 'package:mobile_pos_adminpanell/utils/color.dart';
+import 'package:mobile_pos_adminpanell/utils/internetconnection_class.dart';
 import 'package:mobile_pos_adminpanell/utils/main_body.dart';
+import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_btn.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_textfeild.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:intl/intl.dart';
 
 class AddNewItem extends StatefulWidget {
   const AddNewItem({super.key});
@@ -16,6 +20,14 @@ class AddNewItem extends StatefulWidget {
 
 class _AddNewItemState extends State<AddNewItem> {
   final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    InternetConnectionChecker().isInternetAvailable(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ItemProvider>(context, listen: false).clearData();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +35,8 @@ class _AddNewItemState extends State<AddNewItem> {
         backGroundColor: kBackgroundColor,
         title: 'New item add',
         body: SingleChildScrollView(
-          child: Consumer(
-            builder: (context, value, child) {
+          child: Consumer<ItemProvider>(
+            builder: (context, itemProvider, child) {
               return Form(
                 key: formKey,
                 child: Padding(
@@ -41,7 +53,7 @@ class _AddNewItemState extends State<AddNewItem> {
                       ),
                       child: Column(
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: SizedBox(
                               width: 190,
@@ -63,6 +75,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                 label: 'Enter item name',
                                 fullboader: true,
                                 isValidate: true,
+                                controller: itemProvider.getitemNameController,
                               ),
                             ),
                           ),
@@ -74,10 +87,13 @@ class _AddNewItemState extends State<AddNewItem> {
                                     ? 550
                                     : MediaQuery.of(context).size.width,
                                 child: TextFormField(
+                                  controller:
+                                      itemProvider.getdiscriptionController,
                                   decoration: InputDecoration(
                                     hintText: 'Enter Discription',
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    label: Text(
+                                    hintStyle:
+                                        const TextStyle(color: Colors.black),
+                                    label: const Text(
                                       'Enter Discription',
                                     ),
                                     enabledBorder: OutlineInputBorder(
@@ -94,7 +110,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.red,
                                       ),
                                     ),
@@ -117,6 +133,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                 label: 'quantity',
                                 fullboader: true,
                                 isValidate: true,
+                                controller: itemProvider.getquantityController,
                               ),
                             ),
                           ),
@@ -132,6 +149,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                 label: 'Unit prices',
                                 fullboader: true,
                                 isValidate: true,
+                                controller: itemProvider.getunitPriceController,
                               ),
                             ),
                           ),
@@ -154,8 +172,9 @@ class _AddNewItemState extends State<AddNewItem> {
                                       // print('change $date');
                                     },
                                     onConfirm: (date) {
-                                      // clientProvider.getnicIssueController.text =
-                                      //     DateFormat('dd/MM/yyyy').format(date);
+                                      itemProvider.getmanifecturedateController
+                                              .text =
+                                          DateFormat('dd/MM/yyyy').format(date);
                                     },
                                     currentTime: DateTime.now(),
                                   );
@@ -170,9 +189,9 @@ class _AddNewItemState extends State<AddNewItem> {
                                     // backgroundcolor: kDropBackground,
                                     filled: true,
                                     // bordercolor: kWhiteBorder,
-                                    // controller:
-                                    //     clientProvider.getnicIssueController,
-                                    suffix: Icon(
+                                    controller: itemProvider
+                                        .getmanifecturedateController,
+                                    suffix: const Icon(
                                       Icons.calendar_month,
                                       color: kCommonBlue,
                                     ),
@@ -200,8 +219,9 @@ class _AddNewItemState extends State<AddNewItem> {
                                       // print('change $date');
                                     },
                                     onConfirm: (date) {
-                                      // clientProvider.getnicIssueController.text =
-                                      //     DateFormat('dd/MM/yyyy').format(date);
+                                      itemProvider
+                                              .getexpireDateController.text =
+                                          DateFormat('dd/MM/yyyy').format(date);
                                     },
                                     currentTime: DateTime.now(),
                                   );
@@ -216,9 +236,9 @@ class _AddNewItemState extends State<AddNewItem> {
                                     // backgroundcolor: kDropBackground,
                                     filled: true,
                                     // bordercolor: kWhiteBorder,
-                                    // controller:
-                                    //     clientProvider.getnicIssueController,
-                                    suffix: Icon(
+                                    controller:
+                                        itemProvider.getexpireDateController,
+                                    suffix: const Icon(
                                       Icons.calendar_month,
                                       color: kCommonBlue,
                                     ),
@@ -234,14 +254,17 @@ class _AddNewItemState extends State<AddNewItem> {
                                 width: kIsWeb
                                     ? 550
                                     : MediaQuery.of(context).size.width,
-                                child: CommonBtn(
-                                  bntName: 'Submite',
-                                  onPress: () {
-                                    if (formKey.currentState!.validate()) {
-                                      print('sss');
-                                    }
-                                  },
-                                )),
+                                child: itemProvider.getloadingAddItemData
+                                    ? const CommonLoader()
+                                    : CommonBtn(
+                                        bntName: 'Submite',
+                                        onPress: () {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            itemProvider.addItemData(context);
+                                          }
+                                        },
+                                      )),
                           ),
                         ],
                       ),
