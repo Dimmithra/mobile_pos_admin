@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/splash_screen.dart';
+import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/splash_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => SplashProvider()),
       ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ChangeNotifierProvider(create: (_) => ItemProvider()),
     ],
     child: const MyApp(),
   ));

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
@@ -29,6 +30,7 @@ class _AddNewItemState extends State<AddNewItem> {
     super.initState();
   }
 
+  DateTime selecteddate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return CommonMainScreen(
@@ -61,6 +63,27 @@ class _AddNewItemState extends State<AddNewItem> {
                               child: Image(
                                 image:
                                     AssetImage('assets/images/addproduct.png'),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: kIsWeb
+                                  ? 550
+                                  : MediaQuery.of(context).size.width,
+                              child: const Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'New Item create',
+                                    style: TextStyle(
+                                      color: kCommondarkBlue,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -150,6 +173,11 @@ class _AddNewItemState extends State<AddNewItem> {
                                 fullboader: true,
                                 isValidate: true,
                                 controller: itemProvider.getunitPriceController,
+                                // onChange: (p0) {
+                                //   setState(() {
+                                //     itemProvider.newSellingCalculation(context);
+                                //   });
+                                // },
                               ),
                             ),
                           ),
@@ -161,23 +189,22 @@ class _AddNewItemState extends State<AddNewItem> {
                                   ? 550
                                   : MediaQuery.of(context).size.width,
                               child: InkWell(
-                                onTap: () {
-                                  DatePicker.showDatePicker(
-                                    context,
-                                    showTitleActions: true,
-                                    minTime: DateTime(1950, 1, 1),
-                                    maxTime: DateTime.now()
+                                onTap: () async {
+                                  final DateTime? dateTime =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: selecteddate,
+                                    firstDate: DateTime(1990),
+                                    lastDate: DateTime.now()
                                         .add(Duration(days: 365 * 50)),
-                                    onChanged: (date) {
-                                      // print('change $date');
-                                    },
-                                    onConfirm: (date) {
-                                      itemProvider.getmanifecturedateController
-                                              .text =
-                                          DateFormat('dd/MM/yyyy').format(date);
-                                    },
-                                    currentTime: DateTime.now(),
                                   );
+                                  if (dateTime != null) {
+                                    selecteddate = dateTime;
+                                    itemProvider
+                                            .getmanifecturedateController.text =
+                                        "${selecteddate.toLocal()}"
+                                            .split(' ')[0];
+                                  }
                                 },
                                 child: IgnorePointer(
                                   ignoring: true,
@@ -208,23 +235,21 @@ class _AddNewItemState extends State<AddNewItem> {
                                   ? 550
                                   : MediaQuery.of(context).size.width,
                               child: InkWell(
-                                onTap: () {
-                                  DatePicker.showDatePicker(
-                                    context,
-                                    showTitleActions: true,
-                                    minTime: DateTime(1950, 1, 1),
-                                    maxTime: DateTime.now()
+                                onTap: () async {
+                                  final DateTime? dateTime =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: selecteddate,
+                                    firstDate: DateTime(1990),
+                                    lastDate: DateTime.now()
                                         .add(Duration(days: 365 * 50)),
-                                    onChanged: (date) {
-                                      // print('change $date');
-                                    },
-                                    onConfirm: (date) {
-                                      itemProvider
-                                              .getexpireDateController.text =
-                                          DateFormat('dd/MM/yyyy').format(date);
-                                    },
-                                    currentTime: DateTime.now(),
                                   );
+                                  if (dateTime != null) {
+                                    selecteddate = dateTime;
+                                    itemProvider.getexpireDateController.text =
+                                        "${selecteddate.toLocal()}"
+                                            .split(' ')[0];
+                                  }
                                 },
                                 child: IgnorePointer(
                                   ignoring: true,
@@ -245,6 +270,206 @@ class _AddNewItemState extends State<AddNewItem> {
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: kIsWeb
+                                ? 550
+                                : MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Add new Discounts',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 7, 0, 105),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Switch(
+                                      thumbIcon: itemProvider.thumbIcon,
+                                      value: itemProvider.getispromotion,
+                                      onChanged: (bool value) {
+                                        // setState(() {
+                                        itemProvider.setispromotion(value);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                if (itemProvider.getispromotion == true)
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: kIsWeb
+                                              ? 550
+                                              : MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          child: CommonInput(
+                                            label: 'Discount Rate',
+                                            hintText: 'Discount Rate',
+                                            fullboader: true,
+                                            isValidate: true,
+                                            keyBoardType: true,
+                                            // backgroundcolor: kDropBackground,
+                                            filled: true,
+                                            // bordercolor: kWhiteBorder,
+                                            controller: itemProvider
+                                                .getdiscountRateController,
+                                            suffix: const Icon(
+                                              Icons.percent,
+                                              color: kCommonBlue,
+                                            ),
+                                            onChange: (p0) {
+                                              setState(() {
+                                                itemProvider
+                                                    .newSellingCalculation(
+                                                        context);
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: kIsWeb
+                                            ? 550
+                                            : MediaQuery.of(context).size.width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Card(
+                                              color: Colors.blue,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                    'Discount Amount \n${itemProvider.discountAmount}',
+                                                    style: TextStyle(
+                                                        color: kCommonWhite,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16)),
+                                              ),
+                                            ),
+                                            Icon(Icons.minimize),
+                                            Card(
+                                              color: Colors.blue,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                    'New Selling Price \n${itemProvider.newSellingPrice}',
+                                                    style: TextStyle(
+                                                        color: kCommonWhite,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: kIsWeb
+                                              ? 550
+                                              : MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final DateTime? dateTime =
+                                                  await showDatePicker(
+                                                context: context,
+                                                initialDate: selecteddate,
+                                                firstDate: DateTime(1990),
+                                                lastDate: DateTime.now().add(
+                                                    Duration(days: 365 * 50)),
+                                              );
+                                              if (dateTime != null) {
+                                                selecteddate = dateTime;
+                                                itemProvider
+                                                        .getdiscountStartDayController
+                                                        .text =
+                                                    "${selecteddate.toLocal()}"
+                                                        .split(' ')[0];
+                                              }
+                                            },
+                                            child: IgnorePointer(
+                                              ignoring: true,
+                                              child: CommonInput(
+                                                label: 'Discount Start Date',
+                                                hintText: 'Discount Start Date',
+                                                fullboader: true,
+                                                filled: true,
+                                                isValidate: true,
+                                                controller: itemProvider
+                                                    .getdiscountStartDayController,
+                                                suffix: const Icon(
+                                                  Icons.calendar_month,
+                                                  color: kCommonBlue,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: kIsWeb
+                                              ? 550
+                                              : MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final DateTime? dateTime =
+                                                  await showDatePicker(
+                                                context: context,
+                                                initialDate: selecteddate,
+                                                firstDate: DateTime(1990),
+                                                lastDate: DateTime.now().add(
+                                                    Duration(days: 365 * 50)),
+                                              );
+                                              if (dateTime != null) {
+                                                selecteddate = dateTime;
+                                                itemProvider
+                                                        .getdiscountEndDayController
+                                                        .text =
+                                                    "${selecteddate.toLocal()}"
+                                                        .split(' ')[0];
+                                              }
+                                            },
+                                            child: IgnorePointer(
+                                              ignoring: true,
+                                              child: CommonInput(
+                                                label: 'Discount Finsh Date',
+                                                hintText: 'Discount Finsh Date',
+                                                isValidate: true,
+                                                fullboader: true,
+                                                filled: true,
+                                                controller: itemProvider
+                                                    .getdiscountEndDayController,
+                                                suffix: const Icon(
+                                                  Icons.calendar_month,
+                                                  color: kCommonBlue,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: 5),
