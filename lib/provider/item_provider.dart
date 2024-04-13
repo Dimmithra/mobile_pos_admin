@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/model/get_all_items_model.dart';
 import 'package:mobile_pos_adminpanell/model/item_save_response_model.dart';
 import 'package:mobile_pos_adminpanell/pages/home_page/home.dart';
 import 'dart:developer' as dev;
@@ -11,6 +12,9 @@ import 'package:mobile_pos_adminpanell/utils/message.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ItemProvider extends ChangeNotifier {
+  TextEditingController companyNameController = TextEditingController();
+  TextEditingController get getcompanyNameController => companyNameController;
+
   TextEditingController itemNameController = TextEditingController();
   TextEditingController get getitemNameController => itemNameController;
 
@@ -29,6 +33,9 @@ class ItemProvider extends ChangeNotifier {
 
   TextEditingController expireDateController = TextEditingController();
   TextEditingController get getexpireDateController => expireDateController;
+  TextEditingController imagePathTextController = TextEditingController();
+  TextEditingController get getimagePathTextController =>
+      imagePathTextController;
 
   TextEditingController discountRateController = TextEditingController();
   TextEditingController get getdiscountRateController => discountRateController;
@@ -41,7 +48,11 @@ class ItemProvider extends ChangeNotifier {
   TextEditingController get getdiscountEndDayController =>
       discountEndDayController;
 
+  TextEditingController searchController = TextEditingController();
+  TextEditingController get getsearchController => searchController;
+
   Future<void> clearData() async {
+    companyNameController.clear();
     getitemNameController.clear();
     getdiscriptionController.clear();
     getquantityController.clear();
@@ -103,12 +114,14 @@ class ItemProvider extends ChangeNotifier {
       setloadingAddItemData(true);
       final CommonHttp commonHttp = CommonHttp('', '');
       final data = {
+        "company_name": getcompanyNameController.text,
         "itemname": getitemNameController.text,
         "itemdescription": getdiscriptionController.text,
         "quantity": getquantityController.text,
         "unitprice": "LKR ${getunitPriceController.text}",
         "manifectdate": getmanifecturedateController.text,
         "expdate": getexpireDateController.text,
+        "image_url": getimagePathTextController.text,
         "discount_available": getispromotion,
         "discountrate": "${getdiscountRateController.text} %",
         "discountprice": "LKR $discountAmount",
@@ -129,14 +142,11 @@ class ItemProvider extends ChangeNotifier {
               DialogButton(
                 child: const Text('Okay'),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const HomePage();
-                      },
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const HomePage();
+                    },
+                  ), (route) => false);
                 },
               )
             ]).show();
@@ -145,6 +155,7 @@ class ItemProvider extends ChangeNotifier {
       }
     } catch (e) {
       dev.log("$e");
+      setloadingAddItemData(false);
     } finally {
       setloadingAddItemData(false);
     }
@@ -155,5 +166,91 @@ class ItemProvider extends ChangeNotifier {
   setitemSaveRespondeModel(val) {
     itemSaveRespondeModel = val;
     notifyListeners();
+  }
+
+  //get all item records
+  bool loadGetAllItems = false;
+  bool get getloadGetAllItems => loadGetAllItems;
+  setloadGetAllItems(val) {
+    loadGetAllItems = val;
+    notifyListeners();
+  }
+
+  Future<void> getAllItemsRecords(context) async {
+    try {
+      setloadGetAllItems(true);
+      final CommonHttp commonHttp = CommonHttp('', '');
+      final data = {"": ""};
+      final response = await commonHttp.post(kgetAllItemRecord, data);
+      dev.log('$response');
+      GetAllitemsRecords temp =
+          GetAllitemsRecords.fromJson(jsonDecode(response));
+      if (temp.success == "success") {
+        setallitemsRecords(temp);
+        // commonMessage(context, errorTxt: '${temp.message}').show();
+      } else {
+        commonMessage(context, errorTxt: '${temp.message}').show();
+      }
+    } catch (e) {
+      dev.log('$e');
+    } finally {
+      setloadGetAllItems(false);
+    }
+  }
+
+  GetAllitemsRecords? allitemsRecords;
+  GetAllitemsRecords? get getallitemsRecords => allitemsRecords;
+  setallitemsRecords(val) {
+    allitemsRecords = val;
+    notifyListeners();
+  }
+
+  Future<void> getSeacrhItemRecord(context) async {
+    try {
+      setloadGetAllItems(true);
+      final CommonHttp commonHttp = CommonHttp('', '');
+      final data = {"": ""};
+      final response = await commonHttp.post(kgetAllItemRecord, data);
+      dev.log('$response');
+      GetAllitemsRecords temp =
+          GetAllitemsRecords.fromJson(jsonDecode(response));
+      if (temp.success == "success") {
+        setallitemsRecords(temp);
+        // commonMessage(context, errorTxt: '${temp.message}').show();
+      } else {
+        commonMessage(context, errorTxt: '${temp.message}').show();
+      }
+    } catch (e) {
+      dev.log('$e');
+    } finally {
+      setloadGetAllItems(false);
+    }
+  }
+
+  //get Item
+  Future<void> getSeacrhItemData(context) async {
+    try {
+      setloadGetAllItems(true);
+      final CommonHttp commonHttp = CommonHttp('', '');
+      final data = {
+        "itemname": getsearchController.text,
+        "company_name": getsearchController.text,
+        "itemcode": getsearchController.text
+      };
+      final response = await commonHttp.post(kgetAllItemRecord, data);
+      dev.log('$response');
+      GetAllitemsRecords temp =
+          GetAllitemsRecords.fromJson(jsonDecode(response));
+      if (temp.success == "success") {
+        setallitemsRecords(temp);
+        // commonMessage(context, errorTxt: '${temp.message}').show();
+      } else {
+        commonMessage(context, errorTxt: '${temp.message}').show();
+      }
+    } catch (e) {
+      dev.log('$e');
+    } finally {
+      setloadGetAllItems(false);
+    }
   }
 }

@@ -8,9 +8,9 @@ class CommonHttp {
 
   CommonHttp(this.baseUrl, this.authToken);
 
-  Future<dynamic> get(String endpoint) async {
+  Future<dynamic> get(String endpoint, Map<String, String> data) async {
     final response = await http.get(
-      Uri.parse(endpoint),
+      Uri.parse(endpoint).replace(queryParameters: data),
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",

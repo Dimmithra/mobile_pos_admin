@@ -1,6 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/add_item/add_item.dart';
+import 'package:mobile_pos_adminpanell/pages/add_new_offerce/add_new_offerce.dart';
+import 'package:mobile_pos_adminpanell/pages/edit_product_details/edit_product_details.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
+import 'package:mobile_pos_adminpanell/utils/color.dart';
 import 'package:mobile_pos_adminpanell/utils/internetconnection_class.dart';
 import 'package:mobile_pos_adminpanell/utils/main_body.dart';
 import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
@@ -25,8 +30,29 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  // final List<Color> cardColors = [
+  //   Colors.red,
+  //   Colors.blue,
+  //   Colors.green,
+  //   Colors.orange,
+  //   Colors.purple,
+  //   Colors.yellow,
+  // ];
+
+  // final Random random = Random();
+
+  // Color getRandomColor() {
+  //   return Color.fromRGBO(
+  //     random.nextInt(256),
+  //     random.nextInt(256),
+  //     random.nextInt(256),
+  //     1.0,
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // Color randomColor =  getRandomColor();
     return CommonMainScreen(
       title: 'Welcome',
       drawer: Drawer(
@@ -76,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(child: Consumer(
         builder: (context, value, child) {
           return Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                             size: 35,
                           ),
                           text: 'Add new item',
-                          color: Colors.blue,
+                          color: randomColor,
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
@@ -103,9 +129,59 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         CommonCard(
-                          icon: Icon(Icons.discount),
-                          text: 'Add new offerce',
-                          color: Colors.blueAccent,
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const EditProductDetails(),
+                              ),
+                            );
+                          },
+                          text: 'Edit Products',
+                          color: randomColor,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CommonCard(
+                          icon: const Icon(
+                            Icons.discount,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          text: 'New offers Create',
+                          color: randomColor,
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return const AddNewOffercePage();
+                              },
+                            ));
+                          },
+                        ),
+                        CommonCard(
+                          icon: const Icon(
+                            Icons.campaign,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddNewOffercePage(),
+                              ),
+                            );
+                          },
+                          text: 'Create New \n Promotion Campaign',
+                          color: randomColor,
                         ),
                       ],
                     ),

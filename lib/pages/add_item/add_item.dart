@@ -94,6 +94,22 @@ class _AddNewItemState extends State<AddNewItem> {
                                   ? 550
                                   : MediaQuery.of(context).size.width,
                               child: CommonInput(
+                                hintText: 'Company name',
+                                label: 'Company name',
+                                fullboader: true,
+                                isValidate: true,
+                                controller:
+                                    itemProvider.getcompanyNameController,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: kIsWeb
+                                  ? 550
+                                  : MediaQuery.of(context).size.width,
+                              child: CommonInput(
                                 hintText: 'Enter item name',
                                 label: 'Enter item name',
                                 fullboader: true,
@@ -269,6 +285,22 @@ class _AddNewItemState extends State<AddNewItem> {
                                     ),
                                   ),
                                 ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: kIsWeb
+                                  ? 550
+                                  : MediaQuery.of(context).size.width,
+                              child: CommonInput(
+                                hintText: 'Image Path Link',
+                                label: 'Image Path Link',
+                                fullboader: true,
+                                isValidate: true,
+                                controller:
+                                    itemProvider.getimagePathTextController,
                               ),
                             ),
                           ),
