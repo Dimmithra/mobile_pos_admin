@@ -149,12 +149,12 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                                 : MediaQuery.of(context).size.width,
                             child: CommonInput(
                               maxLines: 5,
-                              hintText: 'Promotion ',
-                              label: 'Promotion Discription',
+                              hintText: 'Promotion Special Conditions',
+                              label: 'Promotion Special Conditions',
                               fullboader: true,
                               isValidate: true,
                               controller: promotionProvider
-                                  .getpromotionDiscriptionController,
+                                  .getpromotionConditionControllerController,
                             ),
                           ),
                         ),
@@ -210,15 +210,18 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                               width: kIsWeb
                                   ? 550
                                   : MediaQuery.of(context).size.width,
-                              child: promotionProvider.loadingCreateData
+                              child: promotionProvider.getloadingCreatePromotion
                                   ? const CommonLoader()
                                   : CommonBtn(
                                       bntName: 'Submite',
                                       onPress: () {
-                                        if (formKey.currentState!.validate()) {
-                                          promotionProvider.CreateNewPromotion(
-                                              context);
-                                        }
+                                        setState(() {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            promotionProvider
+                                                .createNewPromotion(context);
+                                          }
+                                        });
                                       },
                                     )),
                         ),
