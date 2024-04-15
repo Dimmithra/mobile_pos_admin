@@ -105,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       label: 'Enter Your Password',
                                       isValidate: true,
                                       isPassword: true,
+                                      maxLines: 1,
                                       suffix: Icon(Icons.password_sharp),
                                       controller:
                                           loginProvider.getpasswordController,

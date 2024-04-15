@@ -9,3 +9,4 @@ const klogin = "$BASE_URL/login";
 const kitemsave = "$BASE_URL/itemsave";
 //get all items
 const kgetAllItemRecord = "$BASE_URL/getAllItemRecord";
+const kcreatePromotion = "$BASE_URL/createPromotion";

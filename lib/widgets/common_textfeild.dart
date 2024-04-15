@@ -18,6 +18,7 @@ class CommonInput extends StatelessWidget {
     this.maxLength,
     this.isPassword = false,
     this.onChange,
+    this.maxLines,
   });
   final TextEditingController? controller;
   final String hintText;
@@ -33,9 +34,11 @@ class CommonInput extends StatelessWidget {
   final int? maxLength;
   final bool isPassword;
   final Function(String)? onChange;
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       controller: controller,
       maxLength: maxLength,
       validator: (text) {

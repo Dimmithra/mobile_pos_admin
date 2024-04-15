@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/add_item/add_item.dart';
 import 'package:mobile_pos_adminpanell/pages/add_new_offerce/add_new_offerce.dart';
 import 'package:mobile_pos_adminpanell/pages/edit_product_details/edit_product_details.dart';
+import 'package:mobile_pos_adminpanell/pages/promotion_screen/create_new_promotion.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/utils/color.dart';
 import 'package:mobile_pos_adminpanell/utils/internetconnection_class.dart';
@@ -176,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AddNewOffercePage(),
+                                builder: (context) => CreatePromotionScreen(),
                               ),
                             );
                           },

@@ -128,7 +128,7 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                                           return const CircularProgressIndicator();
                                         },
                                         errorWidget: (context, url, error) {
-                                          return Text("");
+                                          return SizedBox.shrink();
                                         },
                                         // fadeInDuration:
                                         //     const Duration(seconds: 3),
