@@ -21,6 +21,15 @@ class CreatePromotionScreen extends StatefulWidget {
 class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
   final formKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<PromotionProvider>(context, listen: false)
+          .clearPromotionCreateData();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CommonMainScreen(
       title: "Promotion",
@@ -106,23 +115,23 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: kIsWeb
-                                ? 550
-                                : MediaQuery.of(context).size.width,
-                            child: CommonInput(
-                              hintText: 'Promotion Code',
-                              label: 'Promotion Code',
-                              fullboader: true,
-                              isValidate: true,
-                              controller: promotionProvider
-                                  .getpromotionCodeeControllerr,
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(height: 5),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: SizedBox(
+                        //     width: kIsWeb
+                        //         ? 550
+                        //         : MediaQuery.of(context).size.width,
+                        //     child: CommonInput(
+                        //       hintText: 'Promotion Code',
+                        //       label: 'Promotion Code',
+                        //       fullboader: true,
+                        //       isValidate: true,
+                        //       controller: promotionProvider
+                        //           .getpromotionCodeeControllerr,
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -141,23 +150,23 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: kIsWeb
-                                ? 550
-                                : MediaQuery.of(context).size.width,
-                            child: CommonInput(
-                              maxLines: 5,
-                              hintText: 'Promotion ',
-                              label: 'Promotion Discription',
-                              fullboader: true,
-                              isValidate: true,
-                              controller: promotionProvider
-                                  .getpromotionDiscriptionController,
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: SizedBox(
+                        //     width: kIsWeb
+                        //         ? 550
+                        //         : MediaQuery.of(context).size.width,
+                        //     child: CommonInput(
+                        //       maxLines: 5,
+                        //       hintText: 'Promotion ',
+                        //       label: 'Promotion Discription',
+                        //       fullboader: true,
+                        //       isValidate: true,
+                        //       controller: promotionProvider
+                        //           .getpromotionDiscriptionController,
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.all(8.0),

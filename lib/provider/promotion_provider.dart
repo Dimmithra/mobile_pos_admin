@@ -1,7 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/model/promotion_create_model.dart';
+import 'package:mobile_pos_adminpanell/pages/home_page/home.dart';
 import 'dart:developer' as dev;
 
 import 'package:mobile_pos_adminpanell/service/http_connector.dart';
+import 'package:mobile_pos_adminpanell/service/url.dart';
+import 'package:mobile_pos_adminpanell/utils/message.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PromotionProvider extends ChangeNotifier {
   DateTime selecteddate = DateTime.now();
@@ -14,9 +22,9 @@ class PromotionProvider extends ChangeNotifier {
   TextEditingController get getpromotionSubTitleController =>
       promotionSubTitleController;
 
-  TextEditingController promotionCodeeController = TextEditingController();
-  TextEditingController get getpromotionCodeeControllerr =>
-      promotionCodeeController;
+  // TextEditingController promotionCodeeController = TextEditingController();
+  // TextEditingController get getpromotionCodeeControllerr =>
+  //     promotionCodeeController;
 
   TextEditingController promotionDiscriptionController =
       TextEditingController();
@@ -25,6 +33,15 @@ class PromotionProvider extends ChangeNotifier {
   TextEditingController promotionDateController = TextEditingController();
   TextEditingController get getpromotionDateController =>
       promotionDateController;
+
+  Future<void> clearPromotionCreateData() async {
+    setloadingCreateData(false);
+    getpromotionHeadLineController.clear();
+    getpromotionSubTitleController.clear();
+    // getpromotionCodeeControllerr.clear();
+    getpromotionDiscriptionController.clear();
+    getpromotionDateController.clear();
+  }
 
   //Save Promotion Data
 
@@ -44,10 +61,37 @@ class PromotionProvider extends ChangeNotifier {
         "sub_title": promotionSubTitleController.text,
         "discription": promotionDiscriptionController.text,
         "promotion_date": promotionDateController.text,
-        "other_comment": "",
+        // "other_comment": getpromotionDiscriptionController.text,
       };
+      dev.log("$data");
+      final response = await commonHttp.post(kcreatePromotion, data);
+      dev.log('${response}');
+      PromotionCreateResponseModel temp =
+          PromotionCreateResponseModel.fromJson(jsonDecode(response));
+      if (temp.success == "Success") {
+        commonMessage(context,
+            errorTxt: '${temp.message}',
+            btnType: 3,
+            buttons: [
+              DialogButton(
+                child: const Text('Okay'),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const HomePage();
+                    },
+                  ), (route) => false);
+                },
+              )
+            ]).show();
+      } else {
+        commonMessage(context, errorTxt: "${temp.message}").show();
+      }
     } catch (e) {
       dev.log("$e");
+      setloadingCreateData(false);
+    } finally {
+      setloadingCreateData(false);
     }
   }
 }
