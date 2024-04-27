@@ -150,7 +150,6 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                             ),
                           ),
                         ),
-<<<<<<< HEAD
                         // Padding(
                         //   padding: const EdgeInsets.all(8.0),
                         //   child: SizedBox(
@@ -168,25 +167,6 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                         //     ),
                         //   ),
                         // ),
-=======
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: kIsWeb
-                                ? 550
-                                : MediaQuery.of(context).size.width,
-                            child: CommonInput(
-                              maxLines: 5,
-                              hintText: 'Promotion Special Conditions',
-                              label: 'Promotion Special Conditions',
-                              fullboader: true,
-                              isValidate: true,
-                              controller: promotionProvider
-                                  .getpromotionConditionControllerController,
-                            ),
-                          ),
-                        ),
->>>>>>> a454dc034cf0a20d0eba67f6a71836dd43a8bcd3
                         const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.all(8.0),

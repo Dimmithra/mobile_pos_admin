@@ -1,9 +1,5 @@
 // ignore: constant_identifier_names
-<<<<<<< HEAD
-const BASE_URL = "http://192.168.50.9:3000";
-=======
-const BASE_URL = "http://192.168.0.111:3000";
->>>>>>> a454dc034cf0a20d0eba67f6a71836dd43a8bcd3
+const BASE_URL = "http://192.168.37.9:3000";
 
 //User registratin
 const kuserregistration = "$BASE_URL/userregistration";
