@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/model/delete_item_responsemodel.dart';
 import 'package:mobile_pos_adminpanell/model/get_all_items_model.dart';
 import 'package:mobile_pos_adminpanell/model/item_save_response_model.dart';
+import 'package:mobile_pos_adminpanell/model/search_data_model.dart';
 import 'package:mobile_pos_adminpanell/pages/home_page/home.dart';
 import 'dart:developer' as dev;
 
@@ -50,6 +52,9 @@ class ItemProvider extends ChangeNotifier {
 
   TextEditingController searchController = TextEditingController();
   TextEditingController get getsearchController => searchController;
+
+  TextEditingController searchItemController = TextEditingController();
+  TextEditingController get getsearchItemController => searchItemController;
 
   Future<void> clearData() async {
     companyNameController.clear();
@@ -252,5 +257,112 @@ class ItemProvider extends ChangeNotifier {
     } finally {
       setloadGetAllItems(false);
     }
+  }
+
+  //Delete Item recored
+  Future<void> deleteItemRecord(context, {required String itemcode}) async {
+    try {
+      setloadDeleteItem(true);
+      final CommonHttp commonHttp = CommonHttp('', '');
+      final data = {
+        "itemcode": itemcode,
+      };
+      dev.log(data.toString());
+      final response = await commonHttp.post(kdeleteItem, data);
+      dev.log('$response');
+      DeleteItemResponseModel temp =
+          DeleteItemResponseModel.fromJson(jsonDecode(response));
+      if (temp.success == "success") {
+        setdeleteItemResponseModelData(temp);
+        commonMessage(context,
+            errorTxt: '${temp.message}',
+            btnType: 3,
+            buttons: [
+              DialogButton(
+                child: const Text("Okay"),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                      (route) => false);
+                },
+              )
+            ]).show();
+      } else {
+        commonMessage(context, errorTxt: '${temp.message}').show();
+      }
+    } catch (e) {
+      dev.log('$e');
+    } finally {
+      setloadDeleteItem(false);
+    }
+  }
+
+  bool loadDeleteItem = false;
+  bool get getloadDeleteItem => loadDeleteItem;
+  setloadDeleteItem(val) {
+    loadDeleteItem = val;
+    notifyListeners();
+  }
+
+  DeleteItemResponseModel? deleteItemResponseModelData;
+  DeleteItemResponseModel? get getdeleteItemResponseModelData =>
+      deleteItemResponseModelData;
+  setdeleteItemResponseModelData(val) {
+    deleteItemResponseModelData = val;
+    notifyListeners();
+  }
+
+  //search selected items
+  Future<void> searchSelectedItems(
+    context, {
+    required String itemcode,
+    required String itemName,
+    required String companyName,
+  }) async {
+    try {
+      setsearchData(true);
+      final CommonHttp commonHttp = CommonHttp('', '');
+      final data = {
+        "itemcode": itemcode,
+        "itemname": itemName,
+        "company_name": companyName,
+      };
+      print(data.toString());
+      dev.log(data.toString());
+      final response = await commonHttp.post(kgetItem, data);
+      print('$response');
+      SearchDataModel temp = SearchDataModel.fromJson(jsonDecode(response));
+      if (temp.data != null) {
+        setsearchDataModelData(temp);
+      } else {
+        commonMessage(context, errorTxt: 'No Record Founded').show();
+      }
+    } catch (e) {
+      dev.log('$e');
+    } finally {
+      setsearchData(false);
+    }
+  }
+
+  bool searchData = false;
+  bool get getsearchData => searchData;
+  setsearchData(val) {
+    searchData = val;
+    notifyListeners();
+  }
+
+  SearchDataModel? searchDataModelData;
+  SearchDataModel? get getsearchDataModelData => searchDataModelData;
+  setsearchDataModelData(val) {
+    searchDataModelData = val;
+    notifyListeners();
+  }
+
+  Future<void> clearSearchData() async {
+    getsearchItemController.clear();
+    setsearchDataModelData(null);
   }
 }

@@ -4,14 +4,17 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/pages/edit_product_details/search_items.dart';
 import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
 import 'package:mobile_pos_adminpanell/utils/color.dart';
 import 'package:mobile_pos_adminpanell/utils/internetconnection_class.dart';
 import 'package:mobile_pos_adminpanell/utils/main_body.dart';
+import 'package:mobile_pos_adminpanell/utils/message.dart';
 import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_textfeild.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class EditProductDetails extends StatefulWidget {
   const EditProductDetails({super.key});
@@ -48,32 +51,44 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        child: CommonInput(
-                          hintText: 'search Produect',
-                          label: 'Seacrch Product',
-                          fullboader: true,
-                          controller: itemProvider.getsearchController,
-                          onChange: (p0) {
-                            // itemProvider.filterItems(p0);
-                            // print(itemProvider.getsearchController.text);
-                          },
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 9,
+                            height: MediaQuery.of(context).size.height / 10,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blueGrey,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SearchItems(),
+                                    ));
+                              },
+                              child: const Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Search",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    Icon(
+                                      Icons.search,
+                                      size: 50,
+                                      color: Colors.white,
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   width: MediaQuery.of(context).size.width / 2.3,
-                      //   child: CommonInput(
-                      //     hintText: 'search Produect',
-                      //     label: 'Seacrch Product',
-                      //     fullboader: true,
-                      //     controller: itemProvider.getsearchController,
-                      //     onChange: (p0) {
-                      //       itemProvider.filterItems(p0);
-                      //       print(itemProvider.getsearchController.text);
-                      //     },
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -237,7 +252,29 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        commonMessage(context,
+                                            btnType: 3,
+                                            errorTxt:
+                                                "Are Your Sure Delete Seleected Item",
+                                            buttons: [
+                                              DialogButton(
+                                                child: Text("Yes"),
+                                                onPressed: () {
+                                                  itemProvider.deleteItemRecord(
+                                                      context,
+                                                      itemcode:
+                                                          "${itemProvider.getallitemsRecords!.data![index].itemcode}");
+                                                },
+                                              ),
+                                              DialogButton(
+                                                child: Text("No"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              )
+                                            ]).show();
+                                      },
                                       icon: Icon(
                                         Icons.delete,
                                         color: Colors.red,
