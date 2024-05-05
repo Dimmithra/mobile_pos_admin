@@ -123,14 +123,14 @@ class ItemProvider extends ChangeNotifier {
         "itemname": getitemNameController.text,
         "itemdescription": getdiscriptionController.text,
         "quantity": getquantityController.text,
-        "unitprice": "LKR ${getunitPriceController.text}",
+        "unitprice": "${getunitPriceController.text}",
         "manifectdate": getmanifecturedateController.text,
         "expdate": getexpireDateController.text,
         "image_url": getimagePathTextController.text,
         "discount_available": getispromotion,
-        "discountrate": "${getdiscountRateController.text} %",
-        "discountprice": "LKR $discountAmount",
-        "new_market_price": "LKR $newSellingPrice",
+        "discountrate": "${getdiscountRateController.text}",
+        "discountprice": "$discountAmount",
+        "new_market_price": "$newSellingPrice",
         "dicount_issu_date": discountStartDayController.text,
         "dicount_expired_date": discountEndDayController.text
       };
