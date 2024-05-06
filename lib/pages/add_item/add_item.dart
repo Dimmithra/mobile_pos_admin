@@ -440,7 +440,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                                 hintText: 'Discount Start Date',
                                                 fullboader: true,
                                                 filled: true,
-                                                isValidate: true,
+                                                // isValidate: true,
                                                 controller: itemProvider
                                                     .getdiscountStartDayController,
                                                 suffix: const Icon(
@@ -485,7 +485,7 @@ class _AddNewItemState extends State<AddNewItem> {
                                               child: CommonInput(
                                                 label: 'Discount Finsh Date',
                                                 hintText: 'Discount Finsh Date',
-                                                isValidate: true,
+                                                // isValidate: true,
                                                 fullboader: true,
                                                 filled: true,
                                                 controller: itemProvider
