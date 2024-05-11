@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/add_item/add_item.dart';
-import 'package:mobile_pos_adminpanell/pages/add_new_offerce/add_new_offerce.dart';
+import 'package:mobile_pos_adminpanell/pages/add_new_offerce/create_new_user.dart';
 import 'package:mobile_pos_adminpanell/pages/edit_product_details/edit_product_details.dart';
 import 'package:mobile_pos_adminpanell/pages/promotion_screen/create_new_promotion.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
@@ -157,12 +157,12 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                             size: 35,
                           ),
-                          text: 'New offers Create',
+                          text: 'Create new user',
                           color: randomColor,
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
-                                return const AddNewOffercePage();
+                                return const CreateNewUser();
                               },
                             ));
                           },

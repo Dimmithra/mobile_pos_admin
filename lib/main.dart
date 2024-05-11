@@ -4,6 +4,7 @@ import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/promotion_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/splash_provider.dart';
+import 'package:mobile_pos_adminpanell/provider/user_reg_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,6 +14,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => LoginProvider()),
       ChangeNotifierProvider(create: (_) => ItemProvider()),
       ChangeNotifierProvider(create: (_) => PromotionProvider()),
+      ChangeNotifierProvider(create: (_) => UserRegProvider())
     ],
     child: const MyApp(),
   ));

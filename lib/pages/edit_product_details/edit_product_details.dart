@@ -12,6 +12,7 @@ import 'package:mobile_pos_adminpanell/utils/main_body.dart';
 import 'package:mobile_pos_adminpanell/utils/message.dart';
 import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_textfeild.dart';
+import 'package:mobile_pos_adminpanell/widgets/qr_common_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -87,6 +88,7 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                                   ]),
                             ),
                           ),
+                          // QrScreen()
                         ],
                       ),
                     ],
@@ -280,13 +282,13 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                                         color: Colors.red,
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
+                                    // IconButton(
+                                    //   onPressed: () {},
+                                    //   icon: Icon(
+                                    //     Icons.edit,
+                                    //     color: Colors.blue,
+                                    //   ),
+                                    // ),
                                   ],
                                 )
                               ],
