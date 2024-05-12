@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pos_adminpanell/model/all_promotion_records.dart';
 import 'package:mobile_pos_adminpanell/model/create_promotion_response_model.dart';
 import 'package:mobile_pos_adminpanell/model/promotion_create_model.dart';
 import 'package:mobile_pos_adminpanell/pages/home_page/home.dart';
@@ -11,6 +12,7 @@ import 'package:mobile_pos_adminpanell/service/http_connector.dart';
 import 'package:mobile_pos_adminpanell/service/url.dart';
 import 'package:mobile_pos_adminpanell/utils/message.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:http/http.dart' as http;
 
 class PromotionProvider extends ChangeNotifier {
   DateTime selecteddate = DateTime.now();
@@ -109,6 +111,50 @@ class PromotionProvider extends ChangeNotifier {
       createPromotionResponseModelData;
   setcreatePromotionResponseModelData(val) {
     createPromotionResponseModelData = val;
+    notifyListeners();
+  }
+
+  //get all
+  Future<void> getAllPromotionData(context) async {
+    try {
+      setloadPromotionData(true);
+      var reqBody = {};
+      dev.log(reqBody.toString());
+      var response = await http.post(
+        Uri.parse(kgetAllPromotionRecord),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(reqBody),
+      );
+      dev.log(response.body);
+
+      GetAllPromotionModel temp =
+          GetAllPromotionModel.fromJson(jsonDecode(response.body));
+      dev.log(response.body);
+
+      if (temp.success == 'success') {
+        setallPromotionModelData(temp);
+      } else {
+        setallPromotionModelData(temp);
+        commonMessage(context, errorTxt: "No Promotion Founded").show();
+      }
+    } catch (e) {
+      dev.log(e.toString());
+    } finally {
+      setloadPromotionData(false);
+    }
+  }
+
+  bool loadPromotionData = false;
+  bool get getloadPromotionData => loadPromotionData;
+  setloadPromotionData(val) {
+    loadPromotionData = val;
+    notifyListeners();
+  }
+
+  GetAllPromotionModel? allPromotionModelData;
+  GetAllPromotionModel? get getallPromotionModelData => allPromotionModelData;
+  setallPromotionModelData(val) {
+    allPromotionModelData = val;
     notifyListeners();
   }
 }

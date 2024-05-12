@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/add_item/add_item.dart';
 import 'package:mobile_pos_adminpanell/pages/add_new_offerce/create_new_user.dart';
+import 'package:mobile_pos_adminpanell/pages/bill_screen/bill_records_screen.dart';
 import 'package:mobile_pos_adminpanell/pages/edit_product_details/edit_product_details.dart';
+import 'package:mobile_pos_adminpanell/pages/promotion_rec/promotion_rec.dart';
 import 'package:mobile_pos_adminpanell/pages/promotion_screen/create_new_promotion.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/utils/color.dart';
@@ -100,99 +102,138 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-      body: SingleChildScrollView(child: Consumer(
-        builder: (context, value, child) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        CommonCard(
-                          icon: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 35,
+      body: SingleChildScrollView(
+        child: Consumer(
+          builder: (context, value, child) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            text: 'Add new item',
+                            color: randomColor,
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const AddNewItem();
+                                },
+                              ));
+                            },
                           ),
-                          text: 'Add new item',
-                          color: randomColor,
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const AddNewItem();
-                              },
-                            ));
-                          },
-                        ),
-                        CommonCard(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 35,
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EditProductDetails(),
+                                ),
+                              );
+                            },
+                            text: 'Edit Products',
+                            color: randomColor,
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const EditProductDetails(),
-                              ),
-                            );
-                          },
-                          text: 'Edit Products',
-                          color: randomColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        CommonCard(
-                          icon: const Icon(
-                            Icons.discount,
-                            color: Colors.white,
-                            size: 35,
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.discount,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            text: 'Create new user',
+                            color: randomColor,
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const CreateNewUser();
+                                },
+                              ));
+                            },
                           ),
-                          text: 'Create new user',
-                          color: randomColor,
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const CreateNewUser();
-                              },
-                            ));
-                          },
-                        ),
-                        CommonCard(
-                          icon: const Icon(
-                            Icons.campaign,
-                            color: Colors.white,
-                            size: 35,
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.notification_add,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreatePromotionScreen(),
+                                ),
+                              );
+                            },
+                            text: 'Create New \n Promotion Campaign',
+                            color: randomColor,
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreatePromotionScreen(),
-                              ),
-                            );
-                          },
-                          text: 'Create New \n Promotion Campaign',
-                          color: randomColor,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      )),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.attach_money,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            text: 'Bill Payment',
+                            color: randomColor,
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const BillRecordsScreens();
+                                },
+                              ));
+                            },
+                          ),
+                          CommonCard(
+                            icon: const Icon(
+                              Icons.campaign_outlined,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrommotionScreen(),
+                                ),
+                              );
+                            },
+                            text: 'Promotion Records',
+                            color: randomColor,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/pages/splash_screen.dart';
+import 'package:mobile_pos_adminpanell/provider/bill_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/item_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/login_provider.dart';
 import 'package:mobile_pos_adminpanell/provider/promotion_provider.dart';
@@ -14,7 +15,8 @@ void main() {
       ChangeNotifierProvider(create: (_) => LoginProvider()),
       ChangeNotifierProvider(create: (_) => ItemProvider()),
       ChangeNotifierProvider(create: (_) => PromotionProvider()),
-      ChangeNotifierProvider(create: (_) => UserRegProvider())
+      ChangeNotifierProvider(create: (_) => UserRegProvider()),
+      ChangeNotifierProvider(create: (_) => BillProvider())
     ],
     child: const MyApp(),
   ));

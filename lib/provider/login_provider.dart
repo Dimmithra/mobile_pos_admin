@@ -43,19 +43,26 @@ class LoginProvider extends ChangeNotifier {
       };
       dev.log("$data");
       final response = await commonHttp.post(klogin, data);
-      dev.log("$response");
+      print("$response");
       LoginModel tmp = LoginModel.fromJson(jsonDecode(response));
       if (tmp.success == "success") {
         setloginModal(tmp);
-        await storage.write(key: 'kJwtToken', value: '${tmp.token}');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const HomePage();
-            },
-          ),
-        );
+        if (tmp.user!.clienttype == "admin") {
+          await storage.write(key: 'kJwtToken', value: '${tmp.token}');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const HomePage();
+              },
+            ),
+          );
+        } else {
+          commonMessage(
+            context,
+            errorTxt: "Invalid Client Type Please Contact Administrator",
+          ).show();
+        }
       } else {
         commonMessage(context, errorTxt: "${tmp.message}", buttons: [
           DialogButton(
