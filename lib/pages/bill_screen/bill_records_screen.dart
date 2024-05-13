@@ -108,7 +108,8 @@ class _BillRecordsScreensState extends State<BillRecordsScreens> {
                                               .getbillRecordsModelData!.data !=
                                           null
                                       ? Container(
-                                          padding: EdgeInsets.only(top: 80),
+                                          padding: EdgeInsets.only(
+                                              top: 80, left: 10, right: 10),
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: Colors.black),
