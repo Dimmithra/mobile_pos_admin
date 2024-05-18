@@ -1,6 +1,6 @@
 // ignore: constant_identifier_names
-// const BASE_URL = "http://192.168.1.101:3000";
-const BASE_URL = "http://192.168.63.9:3000";
+const BASE_URL = "http://192.168.1.102:3000";
+// const BASE_URL = "http://192.168.63.9:3000";
 //User registratin
 const kuserregistration = "$BASE_URL/userregistration";
 //login url
@@ -16,3 +16,6 @@ const kgetItem = "$BASE_URL/getItem";
 const kgetbillRecord = "$BASE_URL/getbillRecord";
 //get allpromotion
 const kgetAllPromotionRecord = "$BASE_URL/getAllPromotionRecord";
+
+///delete promotion
+const kdeletePromo = "$BASE_URL/deletePromo";

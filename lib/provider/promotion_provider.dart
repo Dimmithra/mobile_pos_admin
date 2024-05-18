@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_pos_adminpanell/model/all_promotion_records.dart';
 import 'package:mobile_pos_adminpanell/model/create_promotion_response_model.dart';
+import 'package:mobile_pos_adminpanell/model/deletepromotion_model.dart';
 import 'package:mobile_pos_adminpanell/model/promotion_create_model.dart';
 import 'package:mobile_pos_adminpanell/pages/home_page/home.dart';
 import 'dart:developer' as dev;
@@ -155,6 +156,71 @@ class PromotionProvider extends ChangeNotifier {
   GetAllPromotionModel? get getallPromotionModelData => allPromotionModelData;
   setallPromotionModelData(val) {
     allPromotionModelData = val;
+    notifyListeners();
+  }
+
+  //Delete Promotion Recorde
+  Future<void> deletePromotionRecordes(context,
+      {required String promotion_code}) async {
+    try {
+      setloadPromotionDeleteData(true);
+      var reqBody = {
+        "promotion_code": promotion_code,
+      };
+      print(reqBody.toString());
+      var response = await http.post(
+        Uri.parse(kdeletePromo),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(reqBody),
+      );
+      dev.log(response.body);
+
+      DeletePromotionModelResponse temp =
+          DeletePromotionModelResponse.fromJson(jsonDecode(response.body));
+      print(response.body);
+
+      if (temp.success == 'success') {
+        setDeletePromotionModelResponseData(temp);
+        commonMessage(context,
+            errorTxt: "${temp.message}",
+            btnType: 3,
+            buttons: [
+              DialogButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                      (route) => false);
+                },
+              )
+            ]).show();
+      } else {
+        setDeletePromotionModelResponseData(temp);
+        commonMessage(context, errorTxt: "Promotion Delete Fail").show();
+      }
+    } catch (e) {
+      dev.log(e.toString());
+      setloadPromotionDeleteData(false);
+    } finally {
+      setloadPromotionDeleteData(false);
+    }
+  }
+
+  bool loadPromotionDeleteData = false;
+  bool get getloadPromotionDeleteData => loadPromotionDeleteData;
+  setloadPromotionDeleteData(val) {
+    loadPromotionDeleteData = val;
+    notifyListeners();
+  }
+
+  DeletePromotionModelResponse? DeletePromotionModelResponseData;
+  DeletePromotionModelResponse? get getDeletePromotionModelResponseData =>
+      DeletePromotionModelResponseData;
+  setDeletePromotionModelResponseData(val) {
+    DeletePromotionModelResponseData = val;
     notifyListeners();
   }
 }

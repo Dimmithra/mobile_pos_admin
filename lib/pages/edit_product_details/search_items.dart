@@ -8,6 +8,7 @@ import 'package:mobile_pos_adminpanell/utils/page_loader.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_btn.dart';
 import 'package:mobile_pos_adminpanell/widgets/common_textfeild.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SearchItems extends StatefulWidget {
@@ -222,6 +223,23 @@ class _SearchItemsState extends State<SearchItems> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: QrImageView(
+                                                        data:
+                                                            'Company name: ${itemProvider.getallitemsRecords!.data![index].companyName}, Product name: ${itemProvider.getallitemsRecords!.data![index].itemname},Item Code: ${itemProvider.getallitemsRecords!.data![index].itemcode},Selling Price: ${itemProvider.getallitemsRecords!.data![index].unitprice}, Discount Rate: ${itemProvider.getallitemsRecords!.data![index].discountrate}, New Selling Price: ${itemProvider.getallitemsRecords!.data![index].discountprice}',
+                                                        version:
+                                                            QrVersions.auto,
+                                                        size: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height /
+                                                            6,
+                                                        gapless: false,
+                                                      ),
+                                                    ),
                                                     IconButton(
                                                       onPressed: () {
                                                         commonMessage(context,
@@ -252,13 +270,6 @@ class _SearchItemsState extends State<SearchItems> {
                                                       icon: Icon(
                                                         Icons.delete,
                                                         color: Colors.red,
-                                                      ),
-                                                    ),
-                                                    IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.edit,
-                                                        color: Colors.blue,
                                                       ),
                                                     ),
                                                   ],

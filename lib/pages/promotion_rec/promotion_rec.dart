@@ -145,7 +145,13 @@ class _PrommotionScreenState extends State<PrommotionScreen> {
                                             buttons: [
                                               DialogButton(
                                                 child: Text("Yes"),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  promotionProvider
+                                                      .deletePromotionRecordes(
+                                                          context,
+                                                          promotion_code:
+                                                              "${promotionProvider.getallPromotionModelData!.data![index].promotionCode}");
+                                                },
                                               ),
                                               DialogButton(
                                                 child: Text("No"),

@@ -15,6 +15,7 @@ import 'package:mobile_pos_adminpanell/widgets/common_textfeild.dart';
 import 'package:mobile_pos_adminpanell/widgets/qr_common_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class EditProductDetails extends StatefulWidget {
@@ -250,9 +251,24 @@ class _EditProductDetailsState extends State<EditProductDetails> {
                                     ),
                                   ],
                                 ),
+                                // Column(
+                                //   children: [Text("data")],
+                                // ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: QrImageView(
+                                        data:
+                                            'Company: ${itemProvider.getallitemsRecords!.data![index].companyName}, Product: ${itemProvider.getallitemsRecords!.data![index].itemname}, Code: ${itemProvider.getallitemsRecords!.data![index].itemcode},MPrice: ${itemProvider.getallitemsRecords!.data![index].unitprice}, DRate: ${itemProvider.getallitemsRecords!.data![index].discountrate}, sPrice: ${itemProvider.getallitemsRecords!.data![index].discountprice}',
+                                        version: QrVersions.auto,
+                                        size:
+                                            MediaQuery.of(context).size.height /
+                                                6,
+                                        gapless: false,
+                                      ),
+                                    ),
                                     IconButton(
                                       onPressed: () {
                                         commonMessage(context,
